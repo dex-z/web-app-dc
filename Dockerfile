@@ -1,19 +1,27 @@
-FROM node:14
+#Base Image node:12.18.4-alpine
+FROM node:12.18.4-alpine
 
-# Setting working directory. All the path will be relative to WORKDIR
-WORKDIR /usr/src/app
 
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
-COPY package*.json ./
+#Set working directory to /app
+WORKDIR /app
 
+
+#Set PATH /app/node_modules/.bin
+ENV PATH /app/node_modules/.bin:$PATH
+
+
+#Copy package.json in the image
+COPY package.json ./
+
+
+#Run npm install command
 RUN npm install
-# If you are building your code for production
-# RUN npm ci --only=production
 
-# Bundle app source
-COPY . .
+
+#Copy the app
+COPY . ./
 
 EXPOSE 3000
-CMD [ "node", "index.js" ]
+
+#Start the app
+CMD ["node", "./src/server.js"]
