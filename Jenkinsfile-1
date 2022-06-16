@@ -1,0 +1,16 @@
+pipeline {
+  agent { 
+    label 'macos'
+  }
+  stages {
+    stage('Tooling versions') {
+      steps {
+        sh '''
+          docker --version
+          docker compose version
+          echo success
+        '''
+      }
+    }
+  }
+}
